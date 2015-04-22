@@ -1,29 +1,30 @@
-#define NOP      asm("nop")
+#define NOP asm("nop")
 #define BLACK    PORTB = B00000000;
-#define BLUE     PORTB = B00010000;
-#define GREEN    PORTB = B00100000;
-#define CYAN     PORTB = B00110000;
-#define RED      PORTB = B01000000;
-#define MAGENTA  PORTB = B01010000;
-#define YELLOW   PORTB = B01100000;
-#define WHITE    PORTB = B01110000;
+#define BLUE     PORTB = B00000001;
+#define GREEN    PORTB = B00000010;
+#define CYAN     PORTB = B00000011;
+#define RED      PORTB = B00000100;
+#define MAGENTA  PORTB = B00000101;
+#define YELLOW   PORTB = B00000110;
+#define WHITE    PORTB = B00000111;
  
 unsigned int linecount = 1;
  
 void setup() {
-  /* Set pins 12 to 8 as outputs
-    12 - PB6 - R
-    11 - PB6 - G
-    10 - PB6 - B
-    9  - PH6 - HSYNC
-    8  - PH5 - VSYNC 
-  */  
-  DDRB = (1 << DDB6)|(1 << DDB5)|(1 << DDB4);
-  DDRH = (1 << DDH6)|(1 << DDH5);
-  PORTH = (1 << PH6)|(1 << PH5);         // well, I don`t really sure about its necessity, but it has been added by author
+  /* Pin assignment
+  10 - PB2 - R
+  9  - PB1 - G
+  8  - PB0 - B
+  7  - PD7 - HSYNC
+  6  - PD6 - VSYNC  
+  */
  
+  DDRD |= B11000000;
+  DDRB |= B11100111;
+  PORTD |= B11000000; 
+  
   //set timer  
-  TCCR2A = 0x02;                         // WGM22 = 0 + WGM21 = 1 + WGM20 = 0 = Mode2 (CTC)
+  TCCR2A = 0x02;                         // WGM22 = 0 + WGM21 = 1 + WGM20 = 0 -> Mode2 (CTC)
   TCCR2B |= (1 << CS20);                 //
   TCCR2B |= (1 << CS21);                 // Set prescaler
   TCCR2B &= ~(1 << CS22);                //
@@ -46,41 +47,57 @@ void loop() {
       TCNT2 = 0x00;
                        
       // #### HSYNC ###
-      PORTH &= ~(1 << PH6);      
+      PORTD &= ~(1 << 7);      
       if (++linecount >= 525) { //525 lines
         linecount = 1;
       }      
-      PORTH |= (1 << PH6);
+      PORTD |= (1 << 7);
  
       // ### VSYNC ###
       if ((linecount == 1)||(linecount == 2)) {
-        PORTH &= ~(1 << PH5);      
+        PORTD &= ~(1 << 6);      
       } 
       else {
-        PORTH |= (1 << PH5);
+        PORTD |= (1 << 6);
        
-        NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;
-        NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;
-        NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;
-        NOP;NOP;NOP;NOP;NOP;
+        NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;
+        NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;
+        NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;
+        NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;
        
         if ((linecount >= 9) && (linecount <= 489)) {
                 WHITE;
-                delayMicroseconds(3);NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;
+                delayMicroseconds(3);
+                NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;
+                
                 BLACK;
-                delayMicroseconds(3);NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;
+                delayMicroseconds(3);
+                NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;
+                
                 BLUE;
-                delayMicroseconds(3);NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;
+                delayMicroseconds(3);
+                NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;
+                
                 GREEN;
-                delayMicroseconds(3);NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;
+                delayMicroseconds(3);
+                NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;
+                
                 CYAN;
-                delayMicroseconds(3);NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;
+                delayMicroseconds(3);
+                NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;
+                
                 RED;
-                delayMicroseconds(3);NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;
+                delayMicroseconds(3);
+                NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;
+                
                 MAGENTA;
-                delayMicroseconds(3);NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;
+                delayMicroseconds(3);
+                NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;
+                
                 YELLOW;
-                delayMicroseconds(3);NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;
+                delayMicroseconds(3);
+                NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;
+                
                 BLACK;
                 NOP;NOP;NOP;NOP;
         }

@@ -30,3 +30,18 @@ GND  |GND     |GND     |GND
 10   |PB4     |B       |B
 9    |PH6     |HSYNC   |H
 8    |PH5     |VSYNC   |V
+
+---
+**WARNING**
+
+You HAVE to debug your code with oscilloscope because VGA-signal is time-sensitive. Unfortunately I had no successful attempt to change original pinout and that's why new one below for Uno:
+
+Board|Register|Title   |PCB
+:----|:-------|:-------|:--
+GND  |GND     |GND     |GND
+-    |-       |-       |GND
+10   |PB2     |R       |R
+9    |PB1     |G       |G
+8    |PB0     |B       |B
+7    |PH6     |HSYNC   |H
+6    |PH5     |VSYNC   |V
