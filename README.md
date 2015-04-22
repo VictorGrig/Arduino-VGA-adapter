@@ -23,7 +23,7 @@ You can easily modify source code for getting compability with yours MCU. It doe
 
 **WARNING**
 
-You HAVE to debug your code with oscilloscope because VGA-signal is time-sensitive. Unfortunately I had no successful attempt to change original pinout and that's why new one below for Uno:
+You HAVE to debug your code with oscilloscope because VGA-signal is time-sensitive. Unfortunately I had no successful attempt to change original pinout and that's why new one below for **Arduino Uno R3**:
 
 Board|Register|Title   |PCB
 :----|:-------|:-------|:--
