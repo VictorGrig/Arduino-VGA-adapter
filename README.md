@@ -1,4 +1,4 @@
-##Arduino Mega 2560 R3 VGA adapter
+##Arduino Mega 2560/UNO R3 VGA adapter
 
 Original project: [Marcelo Rodrigues](http://garagelab.com/profiles/blogs/arduino-generated-vga-color-signal-complete)
 
@@ -19,19 +19,8 @@ PLS-7        |Pin header |XP1       |1
 D-SUB DHR-15F|VGA adapter|XS1       |1
 
 ---
-You can easily modify source code for getting compability with yours MCU. It doesn't matter what kind of Arduino you have. Go to [Atmel's website](http://www.atmel.com/products/microcontrollers/avr/default.aspx), find appropriate MCU, find your board's pinout and find register references for digital ports **12** - **8**. Table for **Arduino Mega 2560 R3** is below.
+You can easily modify source code for getting compability with yours MCU. It doesn't matter what kind of Arduino you have. Go to [Atmel's website](http://www.atmel.com/products/microcontrollers/avr/default.aspx), find appropriate MCU, find your board's pinout and find register references for digital ports.
 
-Board|Register|Title   |PCB
-:----|:-------|:-------|:--
-GND  |GND     |GND     |GND
-13   |PB7     |Not used|GND
-12   |PB6     |R       |R
-11   |PB5     |G       |G
-10   |PB4     |B       |B
-9    |PH6     |HSYNC   |H
-8    |PH5     |VSYNC   |V
-
----
 **WARNING**
 
 You HAVE to debug your code with oscilloscope because VGA-signal is time-sensitive. Unfortunately I had no successful attempt to change original pinout and that's why new one below for Uno:
@@ -45,3 +34,16 @@ GND  |GND     |GND     |GND
 8    |PB0     |B       |B
 7    |PH6     |HSYNC   |H
 6    |PH5     |VSYNC   |V
+
+---
+ Table for **Arduino Mega 2560 R3** is below. I tried to make it alive, but all my attempts have been unsuccessful. Fail reason -  [Tektronix TDS2024C](http://www.testequipmentdepot.com/tektronix/oscilloscope/tds2024c.htm) is at the university, I don't have real oscilloscope at home.
+
+Board|Register|Title   |PCB
+:----|:-------|:-------|:--
+GND  |GND     |GND     |GND
+13   |PB7     |Not used|GND
+12   |PB6     |R       |R
+11   |PB5     |G       |G
+10   |PB4     |B       |B
+9    |PH6     |HSYNC   |H
+8    |PH5     |VSYNC   |V
