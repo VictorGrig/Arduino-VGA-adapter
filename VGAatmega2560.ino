@@ -1,12 +1,12 @@
 #define NOP asm("nop")
 #define BLACK    PORTB = B00000000;
-#define BLUE     PORTB = B00000001;
-#define GREEN    PORTB = B00000010;
-#define CYAN     PORTB = B00000011;
-#define RED      PORTB = B00000100;
-#define MAGENTA  PORTB = B00000101;
-#define YELLOW   PORTB = B00000110;
-#define WHITE    PORTB = B00000111;
+#define BLUE     PORTB = B00010000;
+#define GREEN    PORTB = B00100000;
+#define CYAN     PORTB = B00110000;
+#define RED      PORTB = B01000000;
+#define MAGENTA  PORTB = B01010000;
+#define YELLOW   PORTB = B01100000;
+#define WHITE    PORTB = B01110000;
  
 unsigned int linecount = 1;
  
@@ -18,10 +18,11 @@ void setup() {
   7  - PD7 - HSYNC
   6  - PD6 - VSYNC  
   */
- 
-  DDRD |= B11000000;
-  DDRB |= B11100111;
-  PORTD |= B11000000; 
+  
+  DDRB |= B01110000;
+  
+  DDRH |= B01100000;
+  PORTH |= B01100000; 
   
   //set timer  
   TCCR2A = 0x02;                         // WGM22 = 0 + WGM21 = 1 + WGM20 = 0 -> Mode2 (CTC)
@@ -47,21 +48,21 @@ void loop() {
       TCNT2 = 0x00;
                        
       // #### HSYNC ###
-      PORTD &= ~(1 << 7);      
+      PORTH &= ~(1 << 6);      
       if (++linecount >= 525) { //525 lines
         linecount = 1;
       }      
-      PORTD |= (1 << 7);
+      PORTH |= (1 << 6);
  
       // ### VSYNC ###
       if ((linecount == 1)||(linecount == 2)) {
-        PORTD &= ~(1 << 6);      
+        PORTH &= ~(1 << 5);      
       } 
       else {
-        PORTD |= (1 << 6);
+        PORTH |= (1 << 5);
        
-        NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;
-        NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;
+        /*NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;
+        NOP;NOP;NOP;*/NOP;NOP;NOP;NOP;NOP;NOP;
         NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;
         NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;
        
